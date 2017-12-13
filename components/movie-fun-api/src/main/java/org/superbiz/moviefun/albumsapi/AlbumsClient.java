@@ -1,5 +1,6 @@
 package org.superbiz.moviefun.albumsapi;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestOperations;
 
@@ -10,6 +11,7 @@ import static org.springframework.http.HttpMethod.GET;
 public class AlbumsClient {
 
     private String albumsUrl;
+    @LoadBalanced
     private RestOperations restOperations;
 
     public AlbumsClient(String albumsUrl, RestOperations restOperations) {

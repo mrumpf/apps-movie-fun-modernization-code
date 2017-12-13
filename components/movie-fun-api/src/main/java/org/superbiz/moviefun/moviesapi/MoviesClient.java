@@ -1,5 +1,6 @@
 package org.superbiz.moviefun.moviesapi;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -11,6 +12,8 @@ import static org.springframework.http.HttpMethod.GET;
 public class MoviesClient {
 
     private String moviesUrl;
+
+    @LoadBalanced
     private RestOperations restOperations;
 
     private static ParameterizedTypeReference<List<MovieInfo>> movieListType = new ParameterizedTypeReference<List<MovieInfo>>() {
@@ -35,7 +38,7 @@ public class MoviesClient {
 
 
     public int count(String field, String key) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(moviesUrl + "/count")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(moviesUrl + "/count")
             .queryParam("field", field)
             .queryParam("key", key);
 
@@ -44,7 +47,7 @@ public class MoviesClient {
 
 
     public List<MovieInfo> findAll(int start, int pageSize) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(moviesUrl)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(moviesUrl)
             .queryParam("start", start)
             .queryParam("pageSize", pageSize);
 
@@ -52,7 +55,7 @@ public class MoviesClient {
     }
 
     public List<MovieInfo> findRange(String field, String key, int start, int pageSize) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(moviesUrl)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(moviesUrl)
             .queryParam("field", field)
             .queryParam("key", key)
             .queryParam("start", start)
